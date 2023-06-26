@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Security.Permissions;
 using TaskManagement.Models;
 
 namespace TaskManagement.Data
@@ -9,8 +10,9 @@ namespace TaskManagement.Data
         {
 
         }
-        public DbSet<TaskManagement.Models.TaskModel> Tasks { get; set; } = null!;
+        public DbSet<TaskModel> Tasks { get; set; } = null!;
         public DbSet<User> Users { get; set; }
+        public DbSet<Comment> Comments { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
@@ -21,8 +23,9 @@ namespace TaskManagement.Data
                .OnDelete(DeleteBehavior.Restrict);
 
 
-            modelBuilder.Entity<TaskManagement.Models.TaskModel>().ToTable("Tasks");
+            modelBuilder.Entity<TaskModel>().ToTable("Tasks");
             modelBuilder.Entity<User>().ToTable("Users");
+            modelBuilder.Entity<Comment>().ToTable("Comment");
 
         }
     }

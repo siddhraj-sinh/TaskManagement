@@ -139,6 +139,53 @@ namespace TaskManagement.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet("Comment/{id}")]
+
+        public async Task<ActionResult> Comment(int id)
+        {
+            try
+            {
+                var task = await _taskContext.Tasks.FindAsync(id);
+                if (task == null)
+                {
+                    return NotFound();
+                }
+
+                return View(task);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or perform any necessary error handling
+                return StatusCode(500, "An error occurred while processing the request.");
+            }
+        }
+
+        [HttpPost("Comment/{id}")]
+        [Consumes("application/x-www-form-urlencoded")]
+        public async Task<IActionResult> Comment([FromForm] Comment comment,  int id)
+        {
+            try
+            {
+                var NewComment = new Comment
+                {
+                   TaskId = id,
+                    Content = comment.Content,
+                    CreatedAt = DateTime.Now,
+                };
+                await _taskContext.Comments.AddAsync(NewComment);
+                await _taskContext.SaveChangesAsync();
+
+             return RedirectToAction("Index", "Task");
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or perform any necessary error handling
+
+                // Redirect to the Index action with an error message
+                return RedirectToAction("Index", new { errorMessage = "An error occurred while processing the comment." });
+            }
+        }
+
         [HttpGet("Delete/{id}")]
         public async Task<ActionResult> Delete(int id)
         {
@@ -209,7 +256,6 @@ namespace TaskManagement.Controllers
             // Send the email
             smtpClient.Send(message);
         }
-
         private bool TaskExists(int id)
         {
             return _taskContext.Tasks.Any(t => t.Id == id);
