@@ -23,7 +23,7 @@
 
      <div class="form-group">
         <label asp-for="DueDate">Due Date</label>
-        <input class="form-control" asp-for="DueDate" type="date" value="@Model.DueDate.ToString("yyyy-MM-dd")" />
+        <input class="form-control" asp-for="DueDate" type="datetime-local" value="@Model.DueDate.ToString("yyyy-MM-dd HH:mm:ss")" />
         <span asp-validation-for="DueDate" class="text-danger"></span>
     </div>
 
