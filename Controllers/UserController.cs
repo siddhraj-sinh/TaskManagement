@@ -66,7 +66,8 @@ namespace TaskManagement.Controllers
 
             if (finduser == null)
             {
-                return NotFound(new { Message = "User not found" });
+               
+                throw new KeyNotFoundException("Users not found. Try again");
             }
 
 
