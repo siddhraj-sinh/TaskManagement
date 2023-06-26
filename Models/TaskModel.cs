@@ -17,5 +17,7 @@ namespace TaskManagement.Models
 
         [ForeignKey("UserId")]  // Specify the foreign key relationship
         public User User { get; set; }  // Navigation property
+
+        public Comment Comment { get; set; }
     }
 }
