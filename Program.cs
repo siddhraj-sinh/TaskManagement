@@ -1,3 +1,4 @@
+using ExceptionHandling.Middlewares;
 using Microsoft.EntityFrameworkCore;
 using TaskManagement.Data;
 
@@ -24,11 +25,14 @@ namespace TaskManagement
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
             else
             {
                 app.UseDeveloperExceptionPage();
                 app.UseMigrationsEndPoint();
             }
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
+
             using (var scope = app.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
